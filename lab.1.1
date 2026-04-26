@@ -1,0 +1,82 @@
+#pragma once
+#include <math.h> // Підключення математичної бібліотеки для функцій pow, sqrt тощо
+
+namespace YourProjectName {
+
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+
+	public ref class MyForm : public System::Windows::Forms::Form
+	{
+	public:
+		MyForm(void)
+		{
+			InitializeComponent();
+			// Виведення даних про автора при завантаженні форми (опціонально)
+			this->Text = "Обчислення функції - Волинська А.С.";
+		}
+
+	protected:
+		~MyForm()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}
+
+	private: System::Windows::Forms::Button^ buttonCalc;   // Кнопка обчислення
+	private: System::Windows::Forms::Button^ buttonClear;  // Кнопка очищення
+	private: System::Windows::Forms::TextBox^ textBoxX;    // Поле введення X
+	private: System::Windows::Forms::TextBox^ textBoxY;    // Поле виведення Y
+	private: System::Windows::Forms::Label^ labelTask;     // Опис задачі
+	private: System::Windows::Forms::Label^ labelAuthor;   // Дані про автора
+
+	private:
+		System::ComponentModel::Container ^components;
+
+#pragma region Windows Form Designer generated code
+		void InitializeComponent(void)
+		{
+            // Тут автоматично генерується код розміщення кнопок та міток
+		}
+#pragma endregion
+
+		// --- ОБРОБНИК ПОДІЇ ОБЧИСЛЕННЯ ---
+		private: System::Void buttonCalc_Click(System::Object^ sender, System::EventArgs^ e) {
+			try {
+				// 1. Отримання вхідних даних з текстового поля
+				// Перетворюємо текст у число з плаваючою точкою (double)
+				double x = Convert::ToDouble(textBoxX->Text);
+				double y;
+
+				// 2. Реалізація алгоритму обчислення
+				// Приклад функції: y = x^2 + 5 (можна замінити на будь-яку з вашого завдання)
+				y = pow(x, 2) + 5;
+
+				// 3. Виведення результату в поле textBoxY
+				textBoxY->Text = Convert::ToString(y);
+			}
+			catch (Exception^ ex) {
+				// Обробка помилок (якщо введено текст замість числа)
+				MessageBox::Show("Помилка введення: будь ласка, введіть числове значення x.", 
+					"Помилка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
+		}
+
+		// --- ОБРОБНИК ПОДІЇ ОЧИЩЕННЯ ВХІДНИХ ДАНИХ ---
+		private: System::Void buttonClear_Click(System::Object^ sender, System::EventArgs^ e) {
+			// Очищення текстових полів
+			textBoxX->Clear();
+			textBoxY->Clear();
+			
+			// Повернення фокусу на поле введення
+			textBoxX->Focus();
+		}
+
+	};
+}
