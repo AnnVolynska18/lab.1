@@ -1,0 +1,84 @@
+#pragma once
+
+// Підключення бібліотеки математичних функцій
+#include <math.h>
+
+namespace YourProjectName {
+
+    using namespace System;
+    using namespace System::ComponentModel;
+    using namespace System::Collections;
+    using namespace System::Windows::Forms;
+    using namespace System::Data;
+    using namespace System::Drawing;
+
+    public ref class MyForm : public System::Windows::Forms::Form
+    {
+    public:
+        MyForm(void)
+        {
+            InitializeComponent();
+            // Встановлення заголовку вікна
+            this->Text = "Проект: Обчислення значення функції";
+        }
+
+    protected:
+        ~MyForm()
+        {
+            if (components)
+            {
+                delete components;
+            }
+        }
+
+    private: System::Windows::Forms::Button^ buttonCalc;   // Кнопка для розрахунку
+    private: System::Windows::Forms::Button^ buttonClear;  // Кнопка для очищення
+    private: System::Windows::Forms::TextBox^ textBoxX;    // Поле для введення x
+    private: System::Windows::Forms::TextBox^ textBoxY;    // Поле для результату y
+    private: System::Windows::Forms::Label^ labelTask;     // Опис задачі
+    private: System::Windows::Forms::Label^ labelAuthor;   // Інформація про автора
+
+    private:
+        System::ComponentModel::Container ^components;
+
+#pragma region Windows Form Designer generated code
+        void InitializeComponent(void)
+        {
+            // Автоматично згенерований код ініціалізації компонентів
+        }
+#pragma endregion
+
+        // --- ОБРОБНИК ПОДІЇ ДЛЯ ОБЧИСЛЕННЯ ---
+        private: System::Void buttonCalc_Click(System::Object^ sender, System::EventArgs^ e) {
+            try {
+                // Отримуємо значення x з текстового поля та перетворюємо на дійсне число
+                double x = Convert::ToDouble(textBoxX->Text);
+                double y;
+
+                // Реалізація математичного алгоритму
+                // Приклад: y = (sin(x) + cos(x)) / (x^2 + 1)
+                // Ви можете змінити цю формулу на ту, що вказана у вашому варіанті
+                y = (sin(x) + cos(x)) / (pow(x, 2) + 1);
+
+                // Виведення результату, округленого до 4 знаків після коми
+                textBoxY->Text = Convert::ToString(Math::Round(y, 4));
+            }
+            catch (Exception^ ex) {
+                // Повідомлення у разі некоректного введення даних
+                MessageBox::Show("Будь ласка, введіть коректне числове значення для x!", 
+                    "Помилка введення", MessageBoxButtons::OK, MessageBoxIcon::Error);
+            }
+        }
+
+        // --- ОБРОБНИК ПОДІЇ ДЛЯ ОЧИЩЕННЯ ДАНИХ ---
+        private: System::Void buttonClear_Click(System::Object^ sender, System::EventArgs^ e) {
+            // Очищення полів введення та виведення
+            textBoxX->Clear();
+            textBoxY->Clear();
+            
+            // Встановлення фокусу на поле введення для зручності
+            textBoxX->Focus();
+        }
+
+    };
+}
